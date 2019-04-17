@@ -30,7 +30,6 @@ public class PlayerDeathListener implements Listener
         jsonObject.put("block_y", deathLocation.getBlockY());
         jsonObject.put("block_z", deathLocation.getBlockZ());
         jsonObject.put("message", event.getDeathMessage());
-        jsonObject.put("entity_type", event.getEntityType());
         jsonObject.put("time", (int)(System.currentTimeMillis() / 1000L));
 
         AppendToDeathlog(jsonObject.toString());
