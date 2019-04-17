@@ -1,6 +1,7 @@
 package com.ftlz.spigot.deathlog;
 
 import java.io.FileOutputStream;
+import java.util.logging.Level;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -12,12 +13,14 @@ import org.json.simple.JSONObject;
  
 public class PlayerDeathListener implements Listener
 {
-    public PlayerDeathListener()
+    App _app;
+    public PlayerDeathListener(App app)
     {
-        
+        _app = app;        
     }
 
     @SuppressWarnings("unchecked")
+    @EventHandler
     public void onEntityDeath(PlayerDeathEvent event)
     {
         Player playerEntity = event.getEntity();
@@ -36,7 +39,7 @@ public class PlayerDeathListener implements Listener
     }
 
     public void AppendToDeathlog(String data)
-    {        
+    {
         FileOutputStream fileOutputStream = null;
         try
         {
@@ -47,6 +50,10 @@ public class PlayerDeathListener implements Listener
             {
                 fileOutputStream.write((data + "\n").getBytes("utf-8"));
             }
+            catch (Exception err)
+            {
+                _app.getLogger().log(Level.WARNING, err.getMessage());
+            }
             finally
             {
                 lock.release();
@@ -56,7 +63,7 @@ public class PlayerDeathListener implements Listener
         }
         catch (Exception err)
         {
-
+            _app.getLogger().log(Level.WARNING, err.getMessage());
         }
         finally
         {
@@ -68,7 +75,7 @@ public class PlayerDeathListener implements Listener
                 }
                 catch (Exception err)
                 {
-
+                    _app.getLogger().log(Level.WARNING, err.getMessage());
                 }
             }
         }
