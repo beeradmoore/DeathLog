@@ -3,13 +3,13 @@ package com.ftlz.spigot.deathlog;
 import java.io.FileOutputStream;
 import java.util.logging.Level;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.json.simple.JSONObject;
  
 public class PlayerDeathListener implements Listener
 {
@@ -19,26 +19,18 @@ public class PlayerDeathListener implements Listener
         _app = app;        
     }
 
-    @SuppressWarnings("unchecked")
     @EventHandler
     public void onEntityDeath(PlayerDeathEvent event)
     {
         if (event.getDeathMessage() == null)
             return;
-            
-        Player playerEntity = event.getEntity();
-        Location deathLocation = event.getEntity().getLocation();
+                
+        final GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Location.class, new LocationAdapter());
+        final Gson gson = gsonBuilder.create();
+        String jsonData = gson.toJson(new DeathObject(event));
         
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("name", playerEntity.getName());
-        jsonObject.put("world", deathLocation.getWorld().getName());
-        jsonObject.put("block_x", deathLocation.getBlockX());
-        jsonObject.put("block_y", deathLocation.getBlockY());
-        jsonObject.put("block_z", deathLocation.getBlockZ());
-        jsonObject.put("message", event.getDeathMessage());
-        jsonObject.put("time", (int)(System.currentTimeMillis() / 1000L));
-
-        AppendToDeathlog(jsonObject.toString());
+        AppendToDeathlog(jsonData);
     }
 
     public void AppendToDeathlog(String data)
