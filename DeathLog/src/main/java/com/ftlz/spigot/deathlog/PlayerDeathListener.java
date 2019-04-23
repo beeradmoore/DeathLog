@@ -23,6 +23,9 @@ public class PlayerDeathListener implements Listener
     @EventHandler
     public void onEntityDeath(PlayerDeathEvent event)
     {
+        if (event.getDeathMessage() == null)
+            return;
+            
         Player playerEntity = event.getEntity();
         Location deathLocation = event.getEntity().getLocation();
         
