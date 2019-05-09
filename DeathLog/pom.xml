@@ -6,7 +6,7 @@
 
   <groupId>com.ftlz.spigot.deathlog</groupId>
   <artifactId>DeathLog</artifactId>
-  <version>1.0</version>
+  <version>1.1</version>
   <packaging>jar</packaging>
 
   <name>DeathLog</name>
