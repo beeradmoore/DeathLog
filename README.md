@@ -1,2 +1,2 @@
 # DeathLog
-Plugin for SpigotMC - Writes deaths to a jsonl log file.
+Plugin for Spigot - Writes deaths to a jsonl log file.
